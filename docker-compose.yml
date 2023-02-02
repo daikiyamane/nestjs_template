@@ -1,0 +1,16 @@
+version: '3.9'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+    ports:
+      - 3001:3001
+    tty: true
+    init: true
+    volumes:
+      - .:/root/app
+      - node_modules_volume:/root/app/node_modules
+
+volumes:
+  node_modules_volume:

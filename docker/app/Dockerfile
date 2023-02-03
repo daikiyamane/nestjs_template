@@ -5,4 +5,8 @@ WORKDIR /root/app
 RUN apt update && \
 	apt upgrade -y && \
 	apt install -y \
-	git
+	git \
+	build-essential \
+	libmariadb-dev \
+	default-mysql-client && \
+	apt clean

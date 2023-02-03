@@ -1,0 +1,14 @@
+{
+	"name": "nestjs_template",
+	"dockerComposeFile": [
+		"../docker-compose.yml"
+	],
+  "service": "app",
+	"workspaceFolder": "/root/app",
+	"extensions": [
+    "editorconfig.editorconfig",
+    "eamodio.gitlens",
+		"dbaeumer.vscode-eslint",
+		"esbenp.prettier-vscode"
+  ]
+}

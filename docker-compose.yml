@@ -16,6 +16,7 @@ services:
 
   db:
     image: mysql:5.7
+    hostname: mysql
     env_file:
       - .env.dev
     volumes:

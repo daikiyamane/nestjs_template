@@ -7,7 +7,6 @@ assignees:
 body:
   - type: markdown
     attributes:
-      value: aa
   - type: textarea
     id: what-happened
     attributes:

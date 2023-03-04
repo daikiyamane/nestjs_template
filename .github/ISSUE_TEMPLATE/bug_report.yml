@@ -7,7 +7,7 @@ assignees:
 body:
   - type: markdown
     attributes:
-      value: |
+      value: バグ
   - type: textarea
     id: what-happened
     attributes:

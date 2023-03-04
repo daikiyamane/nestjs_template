@@ -13,7 +13,7 @@ body:
     id: what-happened
     attributes:
       label: 概要
-      description: Also tell us, what did you expect to happen?
+      description:
       placeholder: Tell us what you see!
       value: "バグの概要を書いて下さい"
     validations:

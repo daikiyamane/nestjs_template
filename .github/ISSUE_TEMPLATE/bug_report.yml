@@ -15,7 +15,7 @@ body:
       label: 概要
       description: Also tell us, what did you expect to happen?
       placeholder: Tell us what you see!
-      value: "A bug happened!"
+      value: "バグの概要を書いて下さい"
     validations:
       required: true
   - type: textarea

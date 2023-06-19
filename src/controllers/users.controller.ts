@@ -8,12 +8,11 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
+import { UsersService } from '../services/users.service';
 import { ApiTags } from '@nestjs/swagger';
-import { User } from './entities/user.entity';
-import { CreateUserDTO } from './dto/create-user.dto';
+import { User } from '../entities/user.entity';
+import { CreateUserDTO, UpdateUserDTO } from '../dto/user.dto';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
-import { UpdateUserDTO } from './dto/update-user.dto';
 @Controller('/users')
 @ApiTags('/users')
 export class UsersController {

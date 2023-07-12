@@ -1,18 +1,19 @@
 import { join } from 'path';
 import { Logger } from '@nestjs/common';
+import { DataSource } from 'typeorm';
 
-export const dbConfig = () => ({
+const dbConfig = new DataSource({
   type: 'mysql',
-  host: process.env.MYSQL_HOST,
+  host: 'mysql',
   port: 3306,
-  username: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE,
+  username: 'admin',
+  password: 'secret',
+  database: 'nestjs_template',
   entities: [join(__dirname, '../**/*.entity{.ts,.js}')],
   migrations: [join(__dirname, '../migrations/**/*{.ts,.js}')],
   synchronize: false,
 });
 
-Logger.debug(dbConfig());
+Logger.debug(dbConfig);
 
-export default dbConfig();
+export default dbConfig;

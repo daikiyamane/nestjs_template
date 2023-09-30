@@ -18,16 +18,20 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "typeorm:generate": "npm run build && typeorm-ts-node-commonjs -d ./src/config/database.ts migration:generate ./src/migration/$npm_config_name",
-    "typeorm:run": "npm run build && typeorm-ts-node-commonjs -d ./src/config/database.ts migration:run"
+    "resource": "nest g resource $npm_config_name",
+    "typeorm:generate": "typeorm-ts-node-commonjs -d ./src/config/database.ts migration:generate ./src/migrations/$npm_config_name",
+    "typeorm:run": "typeorm-ts-node-commonjs -d ./src/config/database.ts migration:run",
+    "typeorm:show": "typeorm-ts-node-commonjs -d ./src/config/database.ts migration:show"
   },
   "dependencies": {
+    "@nestjs/axios": "^3.0.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^6.1.4",
     "@nestjs/typeorm": "^9.0.1",
+    "axios": "^1.5.1",
     "mysql2": "^2.3.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",

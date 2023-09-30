@@ -8,18 +8,15 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class User extends BaseEntity {
+export class Example extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  name: string;
+  title: string;
 
   @Column()
-  email: string;
-
-  @Column({ name: 'is_active', default: true })
-  isActive: boolean;
+  content: string;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

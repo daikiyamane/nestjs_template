@@ -6,6 +6,8 @@ services:
       dockerfile: docker/app/Dockerfile
     ports:
       - 3001:3001
+    env_file:
+      - .env.dev
     tty: true
     init: true
     volumes:

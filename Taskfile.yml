@@ -1,0 +1,43 @@
+version: '3'
+
+dotenv: ['.env.$ENV']
+tasks:
+  serve:
+    desc: サーバー起動
+    cmds:
+      - npm run start:dev
+  build:
+    desc: ビルド
+    cmds:
+      - npm run build
+  resource:
+    desc: リソースの自動生成
+    cmds:
+      - npm run resource -name={{ .CLI_ARGS }}
+  mysql:
+    desc: mysqlに接続
+    cmds:
+      - mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD
+  db-refresh:
+    desc: DBの初期化
+    prompt: これを実行するとDBの情報が削除されます。本当によろしいですか?
+    cmds:
+      - echo "drop database $MYSQL_DATABASE;" | mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD
+      - echo "create database $MYSQL_DATABASE;" | mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD
+  migrate:gen:
+    desc: マイグレーションファイル自動生成 task migrate:generate -- message
+    cmds:
+      - npm run typeorm:generate -name={{ .CLI_ARGS }}
+  migrate:run:
+    desc: マイグレーションの実行
+    cmds:
+      - npm run typeorm:run
+      - task er-update
+  migrate:show:
+    desc: マイグレーションの履歴
+    cmds:
+      - npm run typeorm:show
+  er-update:
+    desc: ER図を更新
+    cmds:
+      - tbls doc -f

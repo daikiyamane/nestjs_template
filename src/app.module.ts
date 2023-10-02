@@ -12,6 +12,7 @@ import { UsersController } from './users/users.controller';
 import { ExamplesController } from './examples/examples.controller';
 import { UsersService } from './users/users.service';
 import { ExamplesService } from './examples/examples.service';
+import { PrismaService } from './prisma.service';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -37,6 +38,6 @@ import { ExamplesService } from './examples/examples.service';
     HttpModule,
   ],
   controllers: [AppController, UsersController, ExamplesController],
-  providers: [AppService, UsersService, ExamplesService],
+  providers: [AppService, PrismaService, UsersService, ExamplesService],
 })
 export class AppModule {}

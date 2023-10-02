@@ -27,7 +27,11 @@ tasks:
   migrate:gen:
     desc: マイグレーションファイル自動生成 task migrate:generate -- message
     cmds:
-      - npm run typeorm:generate -name={{ .CLI_ARGS }}
+      - npm run migrate:gen -name={{ .CLI_ARGS }}
+  migrate:reset:
+    desc: マイグレーションリセット
+    cmds:
+      - npm run migrate:reset
   migrate:run:
     desc: マイグレーションの実行
     cmds:

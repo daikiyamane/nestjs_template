@@ -18,12 +18,17 @@ tasks:
     desc: mysqlに接続
     cmds:
       - mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD
-  db-refresh:
+  db:refresh:
     desc: DBの初期化
     prompt: これを実行するとDBの情報が削除されます。本当によろしいですか?
     cmds:
       - echo "drop database $MYSQL_DATABASE;" | mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD
       - echo "create database $MYSQL_DATABASE;" | mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD
+      - taks db:grant
+  db:grant:
+    desc: Prismaでmysqlを使用するとき用の権限設定
+    cmds:
+      - echo "GRANT CREATE, ALTER, DROP, REFERENCES ON *.* to 'admin'@'%';" | mysql -h $MYSQL_HOST -u root -p$MYSQL_PASSWORD $MYSQL_DATABASE
   migrate:gen:
     desc: マイグレーションファイル自動生成 task migrate:generate -- message
     cmds:

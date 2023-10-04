@@ -18,21 +18,6 @@ import { PrismaService } from './prisma.service';
     ConfigModule.forRoot({
       envFilePath: '.env.dev',
     }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        type: 'mysql',
-        host: configService.get('MYSQL_HOST'),
-        port: 3306,
-        username: configService.get('MYSQL_USER'),
-        password: configService.get('MYSQL_PASSWORD'),
-        database: configService.get('MYSQL_DATABASE'),
-        entities: [User, Example],
-        migrations: ['src/migrations/*.{js, ts}'],
-        synchronize: false,
-      }),
-      inject: [ConfigService],
-    }),
     UsersModule,
     ExamplesModule,
     HttpModule,

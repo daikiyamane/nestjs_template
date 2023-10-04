@@ -8,7 +8,7 @@ export class UsersController {
 
   @Get(':id')
   async findUserById(@Param('id') id: string): Promise<User | null> {
-    return this.usersService.user(Number(id));
+    return this.usersService.user(+id);
   }
 
   @Get()
@@ -23,7 +23,7 @@ export class UsersController {
     return this.usersService.createUser(userData);
   }
 
-  @Post()
+  @Post('create')
   async createUser2(
     @Body() userData: { name?: string; email: string },
   ): Promise<User> {

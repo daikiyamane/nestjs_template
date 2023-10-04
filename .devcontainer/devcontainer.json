@@ -6,13 +6,13 @@
   "customizations": {
     "vscode": {
       "extensions": [
-		"editorconfig.editorconfig",
-		"eamodio.gitlens",
-		"dbaeumer.vscode-eslint",
-		"esbenp.prettier-vscode",
-		"Prisma.prisma",
-		"task.vscode-task"
-	]
+        "editorconfig.editorconfig",
+        "eamodio.gitlens",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "Prisma.prisma",
+        "task.vscode-task"
+      ]
     }
   }
 }

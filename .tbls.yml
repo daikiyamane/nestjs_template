@@ -5,4 +5,4 @@ dsn: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_HOST}:3306/${MYSQL_DATABASE
 docPath: docs/db
 
 exclude:
-  - migrations
+  - _prisma_migrations

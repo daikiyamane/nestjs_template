@@ -5,7 +5,11 @@ tasks:
   serve:
     desc: サーバー起動
     cmds:
-      - npm run start:dev
+      - npx nest start -b swc -w
+  serve:prod:
+    desc: 本番サーバー検証
+    cmds:
+      - npx node dist/main
   build:
     desc: ビルド
     cmds:
@@ -29,23 +33,23 @@ tasks:
     desc: Prismaでmysqlを使用するとき用の権限設定
     cmds:
       - echo "GRANT CREATE, ALTER, DROP, REFERENCES ON *.* to 'admin'@'%';" | mysql -h $MYSQL_HOST -u root -p$MYSQL_PASSWORD $MYSQL_DATABASE
-  migrate:gen:
-    desc: マイグレーションファイル自動生成 task migrate:generate -- message
+  db:seed:
+    desc: シーダー
     cmds:
-      - npm run migrate:gen -name={{ .CLI_ARGS }}
+      - npx ts-node prisma/seed.ts
+  migrate:
+    desc: マイグレーションファイル自動生成と実行 task migrate:generate -- message
+    cmds:
+      - dotenv -e .env.dev -- npx prisma migrate dev --name {{ .CLI_ARGS }}
+      - task er-update
   migrate:reset:
     desc: マイグレーションリセット
     cmds:
-      - npm run migrate:reset
-  migrate:run:
-    desc: マイグレーションの実行
+      - dotenv -e .env.dev -- npx prisma migrate reset
+  migrate:studio:
+    desc: マイグレーションGUI
     cmds:
-      - npm run typeorm:run
-      - task er-update
-  migrate:show:
-    desc: マイグレーションの履歴
-    cmds:
-      - npm run typeorm:show
+      - npx prisma studio
   er-update:
     desc: ER図を更新
     cmds:

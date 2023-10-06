@@ -9,8 +9,12 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from '@prisma/client';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('users')
+@ApiTags('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -25,18 +29,16 @@ export class UsersController {
   }
 
   @Post()
-  async createUser(
-    @Body() userData: { name?: string; email: string },
-  ): Promise<User> {
-    return this.usersService.createUser(userData);
+  async createUser(@Body() createUserDto: CreateUserDto): Promise<User> {
+    return this.usersService.createUser(createUserDto);
   }
 
   @Put(':id')
   async putUser(
     @Param('id') id: string,
-    @Body() userData: { name?: string; email: string },
+    @Body() updateUserDto: UpdateUserDto,
   ): Promise<User> {
-    return this.usersService.updateUser(+id, userData);
+    return this.usersService.updateUser(+id, updateUserDto);
   }
 
   @Delete(':id')

@@ -28,7 +28,7 @@ tasks:
     cmds:
       - echo "drop database $MYSQL_DATABASE;" | mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD
       - echo "create database $MYSQL_DATABASE;" | mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD
-      - taks db:grant
+      - task db:grant
   db:grant:
     desc: Prismaでmysqlを使用するとき用の権限設定
     cmds:
@@ -40,12 +40,18 @@ tasks:
   migrate:
     desc: マイグレーションファイル自動生成と実行 task migrate:generate -- message
     cmds:
+      - dotenv -e .env.dev -- npx prisma migrate dev
+      - task er-update
+  migrate:gen:
+    desc: マイグレーションファイル自動生成と実行 task migrate:generate -- message
+    cmds:
       - dotenv -e .env.dev -- npx prisma migrate dev --name {{ .CLI_ARGS }}
       - task er-update
   migrate:reset:
     desc: マイグレーションリセット
     cmds:
       - dotenv -e .env.dev -- npx prisma migrate reset
+      - task er-update
   migrate:studio:
     desc: マイグレーションGUI
     cmds:

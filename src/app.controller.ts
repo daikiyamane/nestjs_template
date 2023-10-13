@@ -1,7 +1,9 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
 @Controller()
+@ApiBearerAuth()
 @ApiTags('/')
 export class AppController {
   constructor(private readonly appService: AppService) {}
@@ -11,7 +13,8 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('/hoge')
+  @UseGuards(AuthGuard('jwt'))
+  @Get('hoge')
   getHoge(): string {
     return this.appService.getHoge();
   }

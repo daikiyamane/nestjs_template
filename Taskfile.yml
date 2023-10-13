@@ -2,10 +2,14 @@ version: '3'
 
 dotenv: ['.env.$ENV']
 tasks:
+  setup:
+    desc: セットアップ
+    cmds:
+      - npm install
   serve:
     desc: サーバー起動
     cmds:
-      - npx nest start -b swc -w
+      - npx nest start -w
   serve:prod:
     desc: 本番サーバー検証
     cmds:
@@ -17,7 +21,7 @@ tasks:
   resource:
     desc: リソースの自動生成
     cmds:
-      - npm run resource -name={{ .CLI_ARGS }}
+      - npx nest g resource {{ .CLI_ARGS }}
   mysql:
     desc: mysqlに接続
     cmds:

@@ -6,14 +6,17 @@ import {
   Body,
   Delete,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from '@prisma/client';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiTags } from '@nestjs/swagger';
-
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
 @Controller('users')
+@UseGuards(AuthGuard('jwt'))
+@ApiBearerAuth()
 @ApiTags('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}

@@ -3,8 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
-import { HttpModule } from '@nestjs/axios';
 import { PrismaModule } from './prisma/prisma.module';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -12,7 +12,7 @@ import { PrismaModule } from './prisma/prisma.module';
     }),
     PrismaModule,
     UsersModule,
-    HttpModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

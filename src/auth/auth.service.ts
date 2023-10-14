@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import {
   AuthenticationDetails,
   CognitoUser,
@@ -11,6 +11,7 @@ import { SignUpRequestDto } from './dto/sign-up-request.dto';
 import { VerifyCodeRequestDto } from './dto/verify-code-request.dto';
 import { ChangePasswordRequestDto } from './dto/change-password-request.dto';
 import { ForgotPasswordRequestDto } from './dto/forgot-password-request.dto';
+import { PrismaService } from '../prisma/prisma.service';
 // import {
 //   CognitoIdentityProviderClient,
 //   ListUsersCommand,
@@ -18,7 +19,10 @@ import { ForgotPasswordRequestDto } from './dto/forgot-password-request.dto';
 @Injectable()
 export class AuthService {
   private userPool: CognitoUserPool;
-  constructor(private configService: ConfigService) {
+  constructor(
+    private configService: ConfigService,
+    private prisma: PrismaService,
+  ) {
     this.userPool = new CognitoUserPool({
       UserPoolId: this.configService.get<string>('AWS_USER_POOL_ID') || '',
       ClientId: this.configService.get<string>('AWS_USER_POOL_CLIENT_ID') || '',
@@ -39,9 +43,11 @@ export class AuthService {
     // };
     // const existedUser = await fetchListUsers(email);
     // if (existedUser.length > 0) throw new Error('The email is duplicated.');
-
-    return new Promise((resolve, reject) => {
-      return this.userPool.signUp(
+    if (await this.prisma.user.findFirst({ where: { email } })) {
+      throw new BadRequestException('すでに登録されているメールアドレスです');
+    }
+    const signup = new Promise((resolve, reject) => {
+      this.userPool.signUp(
         name,
         password,
         [new CognitoUserAttribute({ Name: 'email', Value: email })],
@@ -55,6 +61,8 @@ export class AuthService {
         },
       );
     });
+    await signup;
+    await this.prisma.user.create({ data: { name, email } });
   }
 
   async login(user: LoginRequestDto) {

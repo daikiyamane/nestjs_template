@@ -11,18 +11,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         cache: true,
         rateLimit: true,
         jwksRequestsPerMinute: 5,
-        jwksUri: `https://cognito-idp.${
-          configService.get<string>('AWS_DEFAULT_REGION') || ''
-        }.amazonaws.com/${
-          configService.get<string>('AWS_USER_POOL_ID') || ''
-        }/.well-known/jwks.json`,
+        jwksUri: configService.get<string>('AWS_JWKSURI') || '',
       }),
 
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       audience: configService.get<string>('AWS_USER_POOL_CLIENT_ID') || '',
-      issuer: `https://cognito-idp.${
-        configService.get<string>('AWS_DEFAULT_REGION') || ''
-      }.amazonaws.com/${configService.get<string>('AWS_USER_POOL_ID') || ''}`,
+      issuer: configService.get<string>('AWS_ISSUER') || '',
       algorithms: ['RS256'],
     });
   }

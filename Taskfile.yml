@@ -6,6 +6,7 @@ tasks:
     desc: セットアップ
     cmds:
       - npm install
+      - task migrate
   serve:
     desc: サーバー起動
     cmds:
@@ -42,7 +43,7 @@ tasks:
     cmds:
       - npx ts-node prisma/seed.ts
   migrate:
-    desc: マイグレーションファイル自動生成と実行 task migrate:generate -- message
+    desc: マイグレーションファイル自動生成と実行
     cmds:
       - dotenv -e .env.dev -- npx prisma migrate dev
       - task er-update

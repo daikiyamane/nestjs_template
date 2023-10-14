@@ -10,6 +10,11 @@ import { LoginRequestDto } from './dto/login-request.dto';
 import { SignUpRequestDto } from './dto/sign-up-request.dto';
 import { VerifyCodeRequestDto } from './dto/verify-code-request.dto';
 import { ChangePasswordRequestDto } from './dto/change-password-request.dto';
+import { ForgotPasswordRequestDto } from './dto/forgot-password-request.dto';
+// import {
+//   CognitoIdentityProviderClient,
+//   ListUsersCommand,
+// } from '@aws-sdk/client-cognito-identity-provider';
 @Injectable()
 export class AuthService {
   private userPool: CognitoUserPool;
@@ -23,6 +28,15 @@ export class AuthService {
   async signUp(authRegisterRequest: SignUpRequestDto) {
     const { name, email, password } = authRegisterRequest;
     // メールアドレスの重複がないかチェックする
+    // const cognitoClient = new CognitoIdentityProviderClient({});
+    // const fetchListUsers = async (email: string) => {
+    //   const command = new ListUsersCommand({
+    //     UserPoolId: process.env.COGNITO_USER_POOL_ID,
+    //     Filter: `email = "${email}"`,
+    //   });
+    //   const { Users: users } = await cognitoClient.send(command);
+    //   return users;
+    // };
     // const existedUser = await fetchListUsers(email);
     // if (existedUser.length > 0) throw new Error('The email is duplicated.');
 
@@ -121,6 +135,44 @@ export class AuthService {
               resolve(result);
             },
           );
+        },
+        onFailure: (err) => {
+          reject(err);
+        },
+      });
+    });
+  }
+
+  async forgotPassword(user: ForgotPasswordRequestDto) {
+    const { name } = user;
+    const userData = {
+      Username: name,
+      Pool: this.userPool,
+    };
+    const cognitoUser = new CognitoUser(userData);
+    return new Promise((resolve, reject) => {
+      cognitoUser.forgotPassword({
+        onSuccess: (result) => {
+          resolve(result);
+        },
+        onFailure: (err) => {
+          reject(err);
+        },
+      });
+    });
+  }
+
+  async resetPassword(user: ForgotPasswordRequestDto) {
+    const { name, code, password } = user;
+    const userData = {
+      Username: name,
+      Pool: this.userPool,
+    };
+    const cognitoUser = new CognitoUser(userData);
+    return new Promise((resolve, reject) => {
+      cognitoUser.confirmPassword(code.toString(), password, {
+        onSuccess: (result) => {
+          resolve(result);
         },
         onFailure: (err) => {
           reject(err);

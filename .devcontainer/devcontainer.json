@@ -8,10 +8,11 @@
       "extensions": [
         "editorconfig.editorconfig",
         "eamodio.gitlens",
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode",
+        // "dbaeumer.vscode-eslint",
+        // "esbenp.prettier-vscode",
         "Prisma.prisma",
-        "task.vscode-task"
+        "task.vscode-task",
+        "biomejs.biome"
       ]
     }
   }

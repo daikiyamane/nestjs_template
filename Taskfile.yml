@@ -2,11 +2,19 @@ version: '3'
 
 dotenv: ['.env.$ENV']
 tasks:
+  install:
+    desc: パッケージのインストール
+    cmds:
+      - npm install
   setup:
     desc: セットアップ
     cmds:
       - npm install
-      - task migrate
+      - dotenv -e .env.dev -- npx prisma migrate dev
+  api-docs:
+    desc: apiのドキュメントを開く
+    cmds:
+      - xdg-open http://localhost:3001/api
   serve:
     desc: サーバー起動
     cmds:

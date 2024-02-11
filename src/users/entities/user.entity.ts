@@ -1,25 +1,25 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { User } from '@prisma/client';
+import { ApiProperty } from "@nestjs/swagger";
+import { User } from "@prisma/client";
 
 export class UserEntity implements User {
-  @ApiProperty()
-  id: number;
+	@ApiProperty()
+	id: number;
 
-  @ApiProperty()
-  name: string | null;
+	@ApiProperty()
+	name: string | null;
 
-  @ApiProperty()
-  email: string;
+	@ApiProperty()
+	email: string;
 
-  @ApiProperty()
-  remark: string | null;
+	@ApiProperty()
+	remark: string | null;
 
-  @ApiProperty()
-  isAdmin: boolean;
+	@ApiProperty()
+	isAdmin: boolean;
 
-  @ApiProperty()
-  createdAt: Date;
+	@ApiProperty()
+	createdAt: Date;
 
-  @ApiProperty()
-  updatedAt: Date;
+	@ApiProperty()
+	updatedAt: Date;
 }

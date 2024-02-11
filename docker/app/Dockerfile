@@ -1,15 +1,16 @@
-FROM node:18.18.0
+FROM node:20.11.0-bullseye-slim
 
 WORKDIR /root/app
 
 RUN apt update && \
-	apt upgrade -y && \
-	apt install -y \
-	git \
-	build-essential \
-	libmariadb-dev \
-	default-mysql-client && \
-	apt clean
+    apt upgrade -y && \
+    apt install -y \
+    git \
+    build-essential \
+    libmariadb-dev \
+    default-mysql-client \
+    xdg-utils && \
+    apt clean
 
 # tbls install
 RUN apt install -y curl && \

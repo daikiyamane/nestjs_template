@@ -1,12 +1,12 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from "@nestjs/swagger";
 
 export class ForgotPasswordRequestDto {
-  @ApiProperty()
-  name: string;
+	@ApiProperty()
+	name: string;
 
-  @ApiProperty()
-  code: string;
+	@ApiProperty()
+	code: string;
 
-  @ApiProperty()
-  password: string;
+	@ApiProperty()
+	password: string;
 }

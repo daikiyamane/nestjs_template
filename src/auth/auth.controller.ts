@@ -1,16 +1,33 @@
-import { BadRequestException, Body, Controller, Post } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import {
+	BadRequestException,
+	Body,
+	Controller,
+	Get,
+	Post,
+	Req,
+	UseGuards,
+} from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { AuthService } from "./auth.service";
-import { ChangePasswordRequestDto } from "./dto/change-password-request.dto";
-import { ForgotPasswordRequestDto } from "./dto/forgot-password-request.dto";
-import { LoginRequestDto } from "./dto/login-request.dto";
-import { SignUpRequestDto } from "./dto/sign-up-request.dto";
-import { VerifyCodeRequestDto } from "./dto/verify-code-request.dto";
+import {
+	ChangePasswordRequestDto,
+	ForgotPasswordRequestDto,
+	LoginRequestDto,
+	SignUpRequestDto,
+	VerifyCodeRequestDto,
+} from "./dto";
 
 @Controller("auth")
 @ApiTags("auth")
 export class AuthController {
 	constructor(private readonly authService: AuthService) {}
+	@ApiBearerAuth()
+	@UseGuards(AuthGuard("jwt"))
+	@Get("whoami")
+	whoami(@Req() requset: Request) {
+		console.log(requset);
+	}
 
 	@Post("login")
 	async login(@Body() loginRequestDto: LoginRequestDto) {

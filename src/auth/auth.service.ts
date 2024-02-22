@@ -1,17 +1,17 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import {
 	AuthenticationDetails,
 	CognitoUser,
 	CognitoUserAttribute,
 	CognitoUserPool,
 } from "amazon-cognito-identity-js";
-import { ConfigService } from "@nestjs/config";
+import { PrismaService } from "../prisma/prisma.service";
+import { ChangePasswordRequestDto } from "./dto/change-password-request.dto";
+import { ForgotPasswordRequestDto } from "./dto/forgot-password-request.dto";
 import { LoginRequestDto } from "./dto/login-request.dto";
 import { SignUpRequestDto } from "./dto/sign-up-request.dto";
 import { VerifyCodeRequestDto } from "./dto/verify-code-request.dto";
-import { ChangePasswordRequestDto } from "./dto/change-password-request.dto";
-import { ForgotPasswordRequestDto } from "./dto/forgot-password-request.dto";
-import { PrismaService } from "../prisma/prisma.service";
 // import {
 //   CognitoIdentityProviderClient,
 //   ListUsersCommand,
@@ -79,7 +79,10 @@ export class AuthService {
 		return new Promise((resolve, reject) => {
 			return newUser.authenticateUser(authenticationDetails, {
 				onSuccess: (result) => {
-					resolve(result);
+					resolve({
+						accessToken: result.getAccessToken().getJwtToken(),
+						refreshToken: result.getRefreshToken().getToken(),
+					});
 				},
 				onFailure: (err) => {
 					reject(err);
@@ -113,7 +116,7 @@ export class AuthService {
 			return cognitoUser.confirmRegistration(
 				code.toString(),
 				true,
-				function (error, result) {
+				(error, result) => {
 					if (error) reject(error);
 					resolve(result);
 				},
@@ -138,7 +141,7 @@ export class AuthService {
 					cognitoUser.changePassword(
 						old_password,
 						password,
-						function (error, result) {
+						(error, result) => {
 							if (error) reject(error);
 							resolve(result);
 						},

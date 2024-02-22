@@ -1,4 +1,4 @@
-FROM node:20.11.0-bullseye-slim
+FROM node:21-slim
 
 WORKDIR /root/app
 
@@ -9,6 +9,7 @@ RUN apt update && \
     build-essential \
     libmariadb-dev \
     default-mysql-client \
+    procps \
     xdg-utils && \
     apt clean
 

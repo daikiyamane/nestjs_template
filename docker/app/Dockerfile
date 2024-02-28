@@ -21,4 +21,5 @@ RUN apt install -y curl && \
 # task install
 RUN sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
 
+RUN npm install -g npm@9
 RUN npm install -g dotenv-cli

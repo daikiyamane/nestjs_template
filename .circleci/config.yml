@@ -1,0 +1,49 @@
+version: 2.1
+
+executors:
+  ubuntu:
+    machine:
+      image: ubuntu-2004:current
+  node:
+    docker:
+      - image: cimg/node:21.6.1
+jobs:
+  lint:
+    executor: node
+    shell: /bin/bash
+    working_directory: ~/app
+    steps:
+      - checkout
+      - run:
+          name: 依存関係のインストール
+          command: npm install
+      - run:
+          name: リント実行
+          command: npx biome lint ./src
+  # deploy-dev:
+  #   executor: ubuntu
+  #   shell: /bin/bash
+  #   working_directory: ~/app
+  #   steps:
+  #     - attach_workspace:
+  #         at: ~/app
+  #     - add_ssh_keys
+  #     - run:
+  #         name: SSHで最新状態を適用
+  #         command: >
+  #           ssh ${USER_NAME}@${HOST_NAME} "cd ~/workspace/atd_04_aqualink_customer_management_api && ./scripts/deploy-stg.sh"
+workflows:
+  lint_deploy:
+    jobs:
+      - lint:
+          filters:
+            branches:
+              ignore:
+                - main
+                - master
+                - develop
+      # - deploy-dev:
+      #     filters:
+      #       branches:
+      #         only:
+      #           - develop

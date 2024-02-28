@@ -11,10 +11,14 @@ tasks:
     cmds:
       - npm install
       - dotenv -e .env.dev -- npx prisma migrate dev
-  api-docs:
-    desc: apiのドキュメントを開く
+  lint:
+    desc: リント
     cmds:
-      - xdg-open http://localhost:3001/api
+      - npx biome lint ./src
+  lint-fix:
+    desc: リント修正
+    cmds:
+      - npx biome check --apply ./src
   serve:
     desc: サーバー起動
     cmds:

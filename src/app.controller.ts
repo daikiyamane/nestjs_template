@@ -1,4 +1,4 @@
-import { Controller, Get } from "@nestjs/common";
+import { Body, Controller, Get, Post } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { AppService } from "./app.service";
 @Controller()
@@ -10,5 +10,10 @@ export class AppController {
 	@Get()
 	health(): string {
 		return this.appService.health();
+	}
+
+	@Post("clip")
+	clip(@Body() body: any) {
+		console.log(body);
 	}
 }

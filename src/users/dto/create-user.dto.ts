@@ -6,4 +6,10 @@ export class CreateUserDto {
 
 	@ApiProperty()
 	email: string;
+
+	@ApiProperty()
+	isAdmin: boolean;
+
+	@ApiProperty()
+	detail: string;
 }

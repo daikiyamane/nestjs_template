@@ -45,34 +45,23 @@ tasks:
     cmds:
       - echo "drop database $MYSQL_DATABASE;" | mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD
       - echo "create database $MYSQL_DATABASE;" | mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD
-      - task db:grant
-  db:grant:
-    desc: Prismaでmysqlを使用するとき用の権限設定
-    cmds:
-      - echo "GRANT CREATE, ALTER, DROP, REFERENCES ON *.* to 'admin'@'%';" | mysql -h $MYSQL_HOST -u root -p$MYSQL_PASSWORD $MYSQL_DATABASE
   db:seed:
     desc: シーダー
     cmds:
-      - npx ts-node prisma/seed.ts
+      - npx ts-node src/db/seed.ts
   migrate:
-    desc: マイグレーションファイル自動生成と実行
+    desc: マイグレーション実行
     cmds:
-      - dotenv -e .env.dev -- npx prisma migrate dev
+      - dotenv -e .env.dev -- npx drizzle-kit migrate
       - task er-update
   migrate:gen:
-    desc: マイグレーションファイル自動生成と実行 task migrate:generate -- message
+    desc: マイグレーションファイル自動生成
     cmds:
-      - dotenv -e .env.dev -- npx prisma migrate dev --name {{ .CLI_ARGS }}
-      - task er-update
-  migrate:reset:
-    desc: マイグレーションリセット
-    cmds:
-      - dotenv -e .env.dev -- npx prisma migrate reset
-      - task er-update
+      - dotenv -e .env.dev -- npx drizzle-kit generate --name {{ .CLI_ARGS }}
   migrate:studio:
     desc: マイグレーションGUI
     cmds:
-      - npx prisma studio
+      - npx drizzle-kit studio
   er-update:
     desc: ER図を更新
     cmds:

@@ -1,0 +1,21 @@
+import { MySql2Database, drizzle } from "drizzle-orm/mysql2";
+import * as mysql2 from "mysql2/promise";
+import dbConfig from "src/config/database";
+import * as schema from "./schema";
+export const dbAsyncProvider = "dbProvider";
+
+export const dbProvider = [
+	{
+		provide: dbAsyncProvider,
+		useFactory: async () => {
+			const connection = await mysql2.createConnection(dbConfig);
+			const db = drizzle(connection, {
+				schema: schema,
+				mode: "default",
+				logger: true,
+			}) as MySql2Database<typeof schema>;
+			return db;
+		},
+		exports: [dbAsyncProvider],
+	},
+];

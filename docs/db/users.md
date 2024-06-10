@@ -7,15 +7,16 @@
 
 ```sql
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `email` varchar(256) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(256) COLLATE utf8mb4_unicode_ci NOT NULL,
   `is_admin` tinyint(1) NOT NULL DEFAULT '0',
-  `remark` text COLLATE utf8mb4_unicode_ci,
-  `created_at` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-  `updated_at` datetime(3) NOT NULL,
+  `detail` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `users_email_key` (`email`)
+  UNIQUE KEY `id` (`id`),
+  UNIQUE KEY `users_email_unique` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 ```
 
@@ -25,27 +26,29 @@ CREATE TABLE `users` (
 
 | Name | Type | Default | Nullable | Extra Definition | Children | Parents | Comment |
 | ---- | ---- | ------- | -------- | ---------------- | -------- | ------- | ------- |
-| id | int(11) |  | false | auto_increment |  |  |  |
-| email | varchar(191) |  | false |  |  |  |  |
-| name | varchar(191) |  | true |  |  |  |  |
+| id | bigint(20) unsigned |  | false | auto_increment |  |  |  |
+| email | varchar(256) |  | false |  |  |  |  |
+| name | varchar(256) |  | false |  |  |  |  |
 | is_admin | tinyint(1) | 0 | false |  |  |  |  |
-| remark | text |  | true |  |  |  |  |
-| created_at | datetime(3) | CURRENT_TIMESTAMP(3) | false |  |  |  |  |
-| updated_at | datetime(3) |  | false |  |  |  |  |
+| detail | text |  | false |  |  |  |  |
+| created_at | timestamp | CURRENT_TIMESTAMP | false |  |  |  |  |
+| updated_at | timestamp | CURRENT_TIMESTAMP | false | on update CURRENT_TIMESTAMP |  |  |  |
 
 ## Constraints
 
 | Name | Type | Definition |
 | ---- | ---- | ---------- |
+| id | UNIQUE | UNIQUE KEY id (id) |
 | PRIMARY | PRIMARY KEY | PRIMARY KEY (id) |
-| users_email_key | UNIQUE | UNIQUE KEY users_email_key (email) |
+| users_email_unique | UNIQUE | UNIQUE KEY users_email_unique (email) |
 
 ## Indexes
 
 | Name | Definition |
 | ---- | ---------- |
 | PRIMARY | PRIMARY KEY (id) USING BTREE |
-| users_email_key | UNIQUE KEY users_email_key (email) USING BTREE |
+| id | UNIQUE KEY id (id) USING BTREE |
+| users_email_unique | UNIQUE KEY users_email_unique (email) USING BTREE |
 
 ## Relations
 

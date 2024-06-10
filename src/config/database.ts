@@ -1,19 +1,11 @@
-// import { join } from 'path';
-// import { Logger } from '@nestjs/common';
-// import { DataSource } from 'typeorm';
+import * as mysql2 from "mysql2/promise";
 
-// const dbConfig = new DataSource({
-//   type: 'mysql',
-//   host: 'mysql',
-//   port: 3306,
-//   username: 'admin',
-//   password: 'secret',
-//   database: 'nestjs_template',
-//   entities: [join(__dirname, '../**/*.entity{.ts,.js}')],
-//   migrations: [join(__dirname, '../migrations/*{.ts,.js}')],
-//   synchronize: false,
-// });
+const dbConfig: mysql2.ConnectionOptions = {
+	host: process.env.MYSQL_HOST,
+	user: process.env.MYSQL_USER,
+	database: process.env.MYSQL_DATABASE,
+	password: process.env.MYSQL_PASSWORD,
+	port: Number(process.env.DATABASE_PORT),
+};
 
-// Logger.debug(dbConfig);
-
-// export default dbConfig;
+export default dbConfig;

@@ -1,26 +1,45 @@
-import { Injectable } from "@nestjs/common";
-import { User } from "@prisma/client";
-import { PrismaService } from "../prisma/prisma.service";
+import { Inject, Injectable } from "@nestjs/common";
+import { eq } from "drizzle-orm";
+import { MySql2Database } from "drizzle-orm/mysql2";
+import { dbAsyncProvider } from "src/db/db.provider";
+import * as schema from "../db/schema";
+import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
-
 @Injectable()
 export class UsersService {
-	constructor(private prisma: PrismaService) {}
+	constructor(
+		@Inject(dbAsyncProvider) private db: MySql2Database<typeof schema>,
+	) {}
 
-	async user(id: number): Promise<User | null> {
-		return this.prisma.user.findUnique({
-			where: { id },
-		});
+	async index() {
+		return await this.db.query.users.findMany();
 	}
 
-	async users(): Promise<User[]> {
-		return this.prisma.user.findMany();
+	async read(id: number) {
+		const user = await this.db.query.users.findFirst({
+			where: eq(schema.users.id, id),
+		});
+		return user;
 	}
 
-	async updateUser(id: number, updateUserDto: UpdateUserDto): Promise<User> {
-		return this.prisma.user.update({
-			data: updateUserDto,
-			where: { id },
+	async create(createUserDto: CreateUserDto) {
+		const [res] = await this.db
+			.insert(schema.users)
+			.values({ ...createUserDto });
+		const newUser = await this.db.query.users.findFirst({
+			where: eq(schema.users.id, res.insertId),
 		});
+		return newUser;
+	}
+
+	async update(id: number, updateUserDto: UpdateUserDto) {
+		await this.db
+			.update(schema.users)
+			.set(updateUserDto)
+			.where(eq(schema.users.id, id));
+		const updatedUser = await this.db.query.users.findFirst({
+			where: eq(schema.users.id, id),
+		});
+		return updatedUser;
 	}
 }

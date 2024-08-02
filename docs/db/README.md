@@ -4,6 +4,7 @@
 
 | Name | Columns | Comment | Type |
 | ---- | ------- | ------- | ---- |
+| [__drizzle_migrations](__drizzle_migrations.md) | 3 |  | BASE TABLE |
 | [users](users.md) | 7 |  | BASE TABLE |
 
 ## Relations

@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { PassportModule } from "@nestjs/passport";
-import { PrismaModule } from "src/prisma/prisma.module";
+import { DrizzleModule } from "src/db/db.module";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 import { JwtStrategy } from "./jwt.strategy";
@@ -13,7 +13,7 @@ import { JwtStrategy } from "./jwt.strategy";
 			envFilePath: ".env.dev",
 		}),
 		PassportModule.register({ defaultStrategy: "jwt" }),
-		PrismaModule,
+		DrizzleModule,
 	],
 })
 export class AuthModule {}

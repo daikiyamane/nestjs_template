@@ -9,8 +9,8 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { AuthService } from "./auth.service";
-import {
+import type { AuthService } from "./auth.service";
+import type {
 	ChangePasswordRequestDto,
 	ForgotPasswordRequestDto,
 	LoginRequestDto,

@@ -1,6 +1,6 @@
 {
 	"name": "nestjs_template",
-	"dockerComposeFile": ["../docker-compose.yml"],
+	"dockerComposeFile": ["../compose.yml"],
 	"service": "app",
 	"workspaceFolder": "/root/app",
 	"customizations": {
@@ -8,7 +8,6 @@
 			"extensions": [
 				"editorconfig.editorconfig",
 				"eamodio.gitlens",
-				"Prisma.prisma",
 				"task.vscode-task",
 				"biomejs.biome"
 			]

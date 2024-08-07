@@ -1,27 +1,18 @@
-// db/seed.ts
-import * as mysql2 from "mysql2/promise";
+import { type MySql2Database, drizzle } from "drizzle-orm/mysql2";
 
-import { MySql2Database, drizzle } from "drizzle-orm/mysql2";
+import * as mysql2 from "mysql2/promise";
+import { MYSQL_CREDENTIALS } from "src/config";
 import * as schema from "./schema";
+import * as user from "./user";
 const main = async () => {
-	const connection = await mysql2.createConnection({
-		host: process.env.MYSQL_HOST,
-		user: process.env.MYSQL_USER,
-		database: process.env.MYSQL_DATABASE,
-		password: process.env.MYSQL_PASSWORD,
-		port: Number(process.env.DATABASE_PORT),
-	});
+	const connection = await mysql2.createConnection(MYSQL_CREDENTIALS);
 	const db = drizzle(connection, {
 		schema: schema,
 		mode: "default",
 		logger: true,
 	}) as MySql2Database<typeof schema>;
 
-	await db.insert(schema.users).values({
-		name: "test1",
-		email: "daiki04752@gmail.com",
-		detail: "",
-	});
+	await user.run(db);
 
 	connection.end();
 };

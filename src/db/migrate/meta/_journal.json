@@ -1,13 +1,13 @@
 {
-  "version": "6",
-  "dialect": "mysql",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "5",
-      "when": 1718001550600,
-      "tag": "0000_create_users_table",
-      "breakpoints": true
-    }
-  ]
+	"version": "6",
+	"dialect": "mysql",
+	"entries": [
+		{
+			"idx": 0,
+			"version": "5",
+			"when": 1718001550600,
+			"tag": "0000_create_users_table",
+			"breakpoints": true
+		}
+	]
 }

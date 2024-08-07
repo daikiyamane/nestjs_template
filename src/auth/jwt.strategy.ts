@@ -1,8 +1,9 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
+import type { ConfigService } from "@nestjs/config";
 import { PassportStrategy } from "@nestjs/passport";
 import { passportJwtSecret } from "jwks-rsa";
 import { ExtractJwt, Strategy } from "passport-jwt";
+import { AWS_ISSUER, AWS_JWKSURI, AWS_USER_POOL_CLIENT_ID } from "src/config";
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
 	private readonly logger = new Logger(JwtStrategy.name);
@@ -12,12 +13,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 				cache: true,
 				rateLimit: true,
 				jwksRequestsPerMinute: 5,
-				jwksUri: configService.get<string>("AWS_JWKSURI") || "",
+				jwksUri: AWS_JWKSURI,
 			}),
 
 			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-			audience: configService.get<string>("AWS_USER_POOL_CLIENT_ID") || "",
-			issuer: configService.get<string>("AWS_ISSUER") || "",
+			audience: AWS_USER_POOL_CLIENT_ID,
+			issuer: AWS_ISSUER,
 			algorithms: ["RS256"],
 		});
 	}

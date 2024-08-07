@@ -1,5 +1,4 @@
 import { BadRequestException, Inject, Injectable } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
 import {
 	AuthenticationDetails,
 	CognitoUser,
@@ -7,14 +6,16 @@ import {
 	CognitoUserPool,
 } from "amazon-cognito-identity-js";
 import { eq } from "drizzle-orm";
-import { MySql2Database } from "drizzle-orm/mysql2";
+import type { MySql2Database } from "drizzle-orm/mysql2";
+import { AWS_USER_POOL_CLIENT_ID, AWS_USER_POOL_ID } from "src/config";
 import { dbAsyncProvider } from "src/db/db.provider";
 import * as schema from "../db/schema";
-import { ChangePasswordRequestDto } from "./dto/change-password-request.dto";
-import { ForgotPasswordRequestDto } from "./dto/forgot-password-request.dto";
-import { LoginRequestDto } from "./dto/login-request.dto";
-import { SignUpRequestDto } from "./dto/sign-up-request.dto";
-import { VerifyCodeRequestDto } from "./dto/verify-code-request.dto";
+import type { ChangePasswordRequestDto } from "./dto/change-password-request.dto";
+import type { ForgotPasswordRequestDto } from "./dto/forgot-password-request.dto";
+import type { LoginRequestDto } from "./dto/login-request.dto";
+import type { SignUpRequestDto } from "./dto/sign-up-request.dto";
+import type { VerifyCodeRequestDto } from "./dto/verify-code-request.dto";
+
 // import {
 //   CognitoIdentityProviderClient,
 //   ListUsersCommand,
@@ -23,12 +24,11 @@ import { VerifyCodeRequestDto } from "./dto/verify-code-request.dto";
 export class AuthService {
 	private userPool: CognitoUserPool;
 	constructor(
-		private configService: ConfigService,
 		@Inject(dbAsyncProvider) private db: MySql2Database<typeof schema>,
 	) {
 		this.userPool = new CognitoUserPool({
-			UserPoolId: this.configService.get<string>("AWS_USER_POOL_ID") || "",
-			ClientId: this.configService.get<string>("AWS_USER_POOL_CLIENT_ID") || "",
+			UserPoolId: AWS_USER_POOL_ID,
+			ClientId: AWS_USER_POOL_CLIENT_ID,
 		});
 	}
 

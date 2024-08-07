@@ -12,7 +12,7 @@ async function bootstrap() {
 		allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept",
 	});
 	const config = new DocumentBuilder()
-		.setTitle("Nestjs example")
+		.setTitle("nestjs_template")
 		.setDescription("API description")
 		.setVersion(process.env.ENV || "dev")
 		.addTag("nestjs")

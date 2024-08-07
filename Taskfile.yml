@@ -10,7 +10,7 @@ tasks:
     desc: セットアップ
     cmds:
       - npm install
-      - dotenv -e .env.dev -- npx prisma migrate dev
+      - npx drizzle-kit migrate
   lint:
     desc: リント
     cmds:
@@ -18,19 +18,15 @@ tasks:
   lint-fix:
     desc: リント修正
     cmds:
-      - npx biome check --apply ./src
+      - npx biome check --write ./src
   serve:
     desc: サーバー起動
     cmds:
       - npx nest start -w
-  serve:prod:
-    desc: 本番サーバー検証
-    cmds:
-      - npx node dist/main
   build:
     desc: ビルド
     cmds:
-      - npm run build
+      - npx nest build
   resource:
     desc: リソースの自動生成
     cmds:
@@ -48,18 +44,17 @@ tasks:
   db:seed:
     desc: シーダー
     cmds:
-      - npx ts-node src/db/seed.ts
-  migrate:
+      - npx tsx src/db/seed.ts
+  db:migrate:
     desc: マイグレーション実行
     cmds:
-      - dotenv -e .env.dev -- npx drizzle-kit migrate
-      - task er-update
-  migrate:gen:
+      - npx drizzle-kit migrate
+  db:migrate:gen:
     desc: マイグレーションファイル自動生成
     cmds:
-      - dotenv -e .env.dev -- npx drizzle-kit generate --name {{ .CLI_ARGS }}
-  migrate:studio:
-    desc: マイグレーションGUI
+      - npx drizzle-kit generate --name {{ .CLI_ARGS }}
+  db:studio:
+    desc: DBGUI
     cmds:
       - npx drizzle-kit studio
   er-update:

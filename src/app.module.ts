@@ -8,7 +8,8 @@ import { UsersModule } from "./users/users.module";
 @Module({
 	imports: [
 		ConfigModule.forRoot({
-			envFilePath: ".env.dev",
+			envFilePath: `.env.${process.env.ENV}`,
+			isGlobal: true,
 		}),
 		DrizzleModule,
 		UsersModule,

@@ -24,7 +24,6 @@ services:
       - ./docker/db/data:/var/lib/mysql
       - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
       - ./docker/db/log:/var/log/mysql
-      - ./docker/db/1_init.sql:/docker-entrypoint-initdb.d/1_init.sql
     ports:
       - 3301:3306
     networks:

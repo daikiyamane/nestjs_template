@@ -44,7 +44,7 @@ tasks:
   db:seed:
     desc: シーダー
     cmds:
-      - npx tsx src/db/seed.ts
+      - npx tsx src/db/seeds/database.ts
   db:migrate:
     desc: マイグレーション実行
     cmds:
